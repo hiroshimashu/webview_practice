@@ -9,7 +9,7 @@ class MyWeb extends Component {
      } else if (data === 'NG') {
        alert('NG');
      } else {
-       console.log('js is working');
+       fetch(data).then((result) => console.log(result));
      } 
   }
 
@@ -19,13 +19,17 @@ class MyWeb extends Component {
         source={{uri:'https://www.google.co.jp/imghp?hl=ja'}}
         style={{marginTop: 20}}
         injectedJavaScript = {js}
+        onMessage = {this.onMessage}
       />
     );
   }
 }
 
 const js = `
-    window.postMessage('clicked');
+    const prefix = "https://www.google.co.jp";
+    let images = document.getElementsByClassName('rg_l');
+    let imageURL = images[0].getAttribute('href');
+    window.postMessage(prefix + imageURL);
 `
 
 export default MyWeb;
